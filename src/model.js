@@ -5,7 +5,8 @@ var Post = Backbone.Model.extend({
       subject: 'HH',
       body: 'BB',
       by: 'NN',
-      like: 'Like'
+      like: 'Like',
+      deleted: false
   }
 });
 var Posts = Backbone.Collection.extend({});

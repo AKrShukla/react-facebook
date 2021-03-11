@@ -1,7 +1,5 @@
-// import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
-// import './model';
 import { Component } from 'react';
 import Post, { posts } from './model';
 import SinglePost from './post';
@@ -11,31 +9,36 @@ class App extends Component {
     super(props);
     this.onClick = this.onClick.bind(this);
   }
-  // componentDidMount() {
-  //   console.log('componentDidMount() app');
-  //   this.setState({});
-  // }
-
   onClick(event){
     event.preventDefault();
-    var post = new Post({
-      subject: this.subject.value,
-      body: this.body.value,
-      by: this.by.value
-    });
-    posts.add(post);
-    this.setState({});
-
-    // console.log(posts.toArray());
-    // console.log(post.toJSON());
-
+    if (this.subject.value === ''){
+      alert('Subject should not be empty');
+    }
+    else if (this.body.value === ''){
+      alert('Body should not be empty');
+    }
+    else if (this.by.value === ''){
+      alert('By should not be empty');
+    }
+    else{
+      var post = new Post({
+        subject: this.subject.value,
+        body: this.body.value,
+        by: this.by.value
+      });
+      posts.add(post);
+      this.subject.value = '';
+      this.body.value = '';
+      this.by.value = '';
+      this.setState({});
+    }
+    
   }
   render(){
-  console.log(1);
   return (
     <div className="App">
       <div className="container">
-        <h1>Facebook Post using Backbone JS</h1>
+        <h1>Facebook Post using Backbone JS and React JS</h1>
         <table className="table">
             <thead>
                 <tr>
@@ -53,11 +56,12 @@ class App extends Component {
             </thead>
             <tbody className="posts-list">
               {
-                
-                posts.map((post, index) =>{
-                  
+                posts.toArray().map((post, index) =>{
+                  if(post.attributes.deleted){
+                    post.destroy();
+                  }
                   return (
-                    <SinglePost key={index} post={post}>{post.attributes.by}</SinglePost>
+                    <SinglePost key={index} post={post}></SinglePost>
                   )
                 })
               }

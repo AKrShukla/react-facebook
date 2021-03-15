@@ -32,7 +32,6 @@ class App extends Component {
       this.by.value = '';
       this.setState({});
     }
-    
   }
   render(){
   return (
@@ -61,7 +60,7 @@ class App extends Component {
                     post.destroy();
                   }
                   return (
-                    <SinglePost key={index} post={post}></SinglePost>
+                    <SinglePost key={index} attributes={post.attributes}></SinglePost>
                   )
                 })
               }

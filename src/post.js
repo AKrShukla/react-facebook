@@ -68,10 +68,9 @@ class SinglePost extends Component{
             showinput:false
         });
     }
-
     render(){
         if(this.state.deleted) {
-            return(<></>);
+            return(null);
         }
         else if(this.state.showinput) { 
             return (

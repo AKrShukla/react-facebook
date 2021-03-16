@@ -10,8 +10,15 @@ const propTypes = {
 class SinglePost extends Component{
     constructor(props){
         super(props);
-        this.state = props.attributes;
-        this.state.showinput = false;
+        this.post = props.post;
+        this.state = {
+            subject: props.post.attributes.subject,
+            body: props.post.attributes.body,
+            by: props.post.attributes.by,
+            like: props.post.attributes.like,
+            deleted: props.post.attributes.deleted,
+            showinput: false
+        };
         this.onLike = this.onLike.bind(this);
         this.onEdit = this.onEdit.bind(this);
         this.updateSubject = this.updateSubject.bind(this);
@@ -22,13 +29,13 @@ class SinglePost extends Component{
         this.onCancel = this.onCancel.bind(this);
     }
     onLike(event){
-        if(this.props.attributes.like === 'Like'){
-            this.props.attributes.like = 'Unlike';
+        if(this.post.attributes.like === 'Like'){
+            this.post.set({like: 'Unlike'});
         }
         else{
-            this.props.attributes.like = 'Like';
+            this.post.set({like: 'Like'});
         }
-        this.setState({like:this.props.attributes.like});
+        this.setState({like:this.post.attributes.like});
     }
     onEdit(event){
         this.setState({showinput: true});
@@ -43,21 +50,23 @@ class SinglePost extends Component{
         this.setState({by: this.by.value});
     }
     onUpdate(){
-        this.props.attributes.subject = this.subject;
-        this.props.attributes.body = this.body;
-        this.props.attributes.by = this.by;
+        this.post.set({subject: this.subject.value,
+            body: this.body.value,
+            by: this.by.value
+        });
         this.setState({showinput: false});
     }
     onDelete(){
-        this.props.attributes.deleted = true;
+        this.post.set({deleted: true});
         this.setState({deleted: true});
     }
     onCancel(){
-        this.setState({showinput: false,
-            subject: this.props.attributes.subject,
-            body: this.props.attributes.body,
-            by: this.props.attributes.by}
-        );
+        this.setState({
+            subject: this.post.attributes.subject,
+            body: this.post.attributes.body,
+            by: this.post.attributes.by,
+            showinput:false
+        });
     }
 
     render(){

@@ -69,8 +69,17 @@ class SinglePost extends Component{
         });
     }
     render(){
-        if(this.state.deleted) {
-            return(null);
+        if(!this.state.deleted){
+            return(
+                <tr>
+                    <td><span className="subject">{this.state.subject}</span></td>
+                    <td><span className="body">{this.state.body}</span></td>
+                    <td><span className="by">{this.state.by}</span></td>
+                    <td><button className="btn btn-success like-post" onClick={this.onLike}>{this.state.like}</button>
+                        <button className="btn btn-warning edit-post" onClick={this.onEdit}>Edit</button> 
+                        <button className="btn btn-danger delete-post" onClick={this.onDelete}>Delete</button></td>
+                </tr>
+            );
         }
         else if(this.state.showinput) { 
             return (
@@ -85,16 +94,7 @@ class SinglePost extends Component{
             );
         }
         else{
-            return(
-                <tr>
-                    <td><span className="subject">{this.state.subject}</span></td>
-                    <td><span className="body">{this.state.body}</span></td>
-                    <td><span className="by">{this.state.by}</span></td>
-                    <td><button className="btn btn-success like-post" onClick={this.onLike}>{this.state.like}</button>
-                        <button className="btn btn-warning edit-post" onClick={this.onEdit}>Edit</button> 
-                        <button className="btn btn-danger delete-post" onClick={this.onDelete}>Delete</button></td>
-                </tr>
-            );
+            return null;
         }
     }
 }

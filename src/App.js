@@ -56,11 +56,8 @@ class App extends Component {
             <tbody className="posts-list">
               {
                 posts.toArray().map((post, index) =>{
-                  if(post.attributes.deleted){
-                    post.destroy();
-                  }
                   return (
-                    <SinglePost key={index} attributes={post.attributes}></SinglePost>
+                    <SinglePost key={index} post={post}></SinglePost>
                   )
                 })
               }

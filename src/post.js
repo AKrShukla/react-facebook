@@ -10,6 +10,7 @@ const propTypes = {
 class SinglePost extends Component{
     constructor(props){
         super(props);
+        this.post = props.post;
         this.state = {
             subject: props.post.attributes.subject,
             body: props.post.attributes.body,
@@ -28,13 +29,13 @@ class SinglePost extends Component{
         this.onCancel = this.onCancel.bind(this);
     }
     onLike(event){
-        if(this.props.post.attributes.like === 'Like'){
-            this.props.post.attributes.like = 'Unlike';
+        if(this.post.attributes.like === 'Like'){
+            this.post.set({like: 'Unlike'});
         }
         else{
-            this.props.post.attributes.like = 'Like';
+            this.post.set({like: 'Like'});
         }
-        this.setState({like:this.props.post.attributes.like});
+        this.setState({like:this.post.attributes.like});
     }
     onEdit(event){
         this.setState({showinput: true});
@@ -49,21 +50,23 @@ class SinglePost extends Component{
         this.setState({by: this.by.value});
     }
     onUpdate(){
-        this.props.post.attributes.subject = this.subject;
-        this.props.post.attributes.body = this.body;
-        this.props.post.attributes.by = this.by;
+        this.post.set({subject: this.subject.value,
+            body: this.body.value,
+            by: this.by.value
+        });
         this.setState({showinput: false});
     }
     onDelete(){
-        this.props.post.attributes.deleted = true;
+        this.post.set({deleted: true});
         this.setState({deleted: true});
     }
     onCancel(){
-        this.setState({showinput: false,
-            subject: this.props.post.attributes.subject,
-            body: this.props.post.attributes.body,
-            by: this.props.post.attributes.by}
-        );
+        this.setState({
+            subject: this.post.attributes.subject,
+            body: this.post.attributes.body,
+            by: this.post.attributes.by,
+            showinput:false
+        });
     }
     render(){
         if(this.state.deleted) {

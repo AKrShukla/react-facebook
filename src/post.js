@@ -12,11 +12,11 @@ class SinglePost extends Component{
         super(props);
         this.post = props.post;
         this.state = {
-            subject: props.post.attributes.subject,
-            body: props.post.attributes.body,
-            by: props.post.attributes.by,
-            like: props.post.attributes.like,
-            deleted: props.post.attributes.deleted,
+            subject: props.post.get("subject"),
+            body: props.post.get("body"),
+            by: props.post.get("by"),
+            like: props.post.get("like"),
+            deleted: props.post.get("deleted"),
             showinput: false
         };
         this.onLike = this.onLike.bind(this);
@@ -29,13 +29,13 @@ class SinglePost extends Component{
         this.onCancel = this.onCancel.bind(this);
     }
     onLike(event){
-        if(this.post.attributes.like === 'Like'){
+        if(this.post.get("like") === 'Like'){
             this.post.set({like: 'Unlike'});
         }
         else{
             this.post.set({like: 'Like'});
         }
-        this.setState({like:this.post.attributes.like});
+        this.setState({like:this.post.get("like")});
     }
     onEdit(event){
         this.setState({showinput: true});
@@ -62,26 +62,14 @@ class SinglePost extends Component{
     }
     onCancel(){
         this.setState({
-            subject: this.post.attributes.subject,
-            body: this.post.attributes.body,
-            by: this.post.attributes.by,
+            subject: this.post.get("subject"),
+            body: this.post.get("body"),
+            by: this.post.get("by"),
             showinput:false
         });
     }
     render(){
-        if(!this.state.deleted){
-            return(
-                <tr>
-                    <td><span className="subject">{this.state.subject}</span></td>
-                    <td><span className="body">{this.state.body}</span></td>
-                    <td><span className="by">{this.state.by}</span></td>
-                    <td><button className="btn btn-success like-post" onClick={this.onLike}>{this.state.like}</button>
-                        <button className="btn btn-warning edit-post" onClick={this.onEdit}>Edit</button> 
-                        <button className="btn btn-danger delete-post" onClick={this.onDelete}>Delete</button></td>
-                </tr>
-            );
-        }
-        else if(this.state.showinput) { 
+        if(this.state.showinput) { 
             return (
                 <tr>
                     <td><input className="form-control subject-input" value={this.state.subject} onChange={this.updateSubject} ref={subject => this.subject = subject}/></td>
@@ -90,6 +78,18 @@ class SinglePost extends Component{
                     <td><button className="btn btn-success like-post" onClick={this.onLike}>{this.state.like}</button>
                         <button className="btn btn-warning update-post" onClick={this.onUpdate}>Update</button> 
                         <button className="btn btn-danger cancel" onClick={this.onCancel}>Cancel</button></td>
+                </tr>
+            );
+        }
+        else if(!this.state.deleted){
+            return(
+                <tr>
+                    <td><span className="subject">{this.state.subject}</span></td>
+                    <td><span className="body">{this.state.body}</span></td>
+                    <td><span className="by">{this.state.by}</span></td>
+                    <td><button className="btn btn-success like-post" onClick={this.onLike}>{this.state.like}</button>
+                        <button className="btn btn-warning edit-post" onClick={this.onEdit}>Edit</button> 
+                        <button className="btn btn-danger delete-post" onClick={this.onDelete}>Delete</button></td>
                 </tr>
             );
         }

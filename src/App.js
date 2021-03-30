@@ -2,7 +2,8 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Component } from 'react';
 import Post, { posts } from './model';
-import SinglePost from './post';
+// import SinglePost from './post';
+import SinglePostHooks from './postHooks'
 
 class App extends Component {
   constructor(props){
@@ -56,9 +57,16 @@ class App extends Component {
             <tbody className="posts-list">
               {
                 posts.toArray().map((post, index) =>{
-                  return (
-                    <SinglePost key={index} post={post}></SinglePost>
-                  )
+                  if(post.attributes.deleted){
+                    return null;
+                  }
+                  else{
+                    return (
+                      // SinglePostHooks
+                      // <SinglePost key={index} post={post}></SinglePost>
+                      <SinglePostHooks key={index} post={post}></SinglePostHooks>
+                    )
+                  }
                 })
               }
             </tbody>
